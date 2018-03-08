@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <PackAsTool>true</PackAsTool>
+    <AssemblyName>obfuscar</AssemblyName>
+    <PackageId>Obfuscar.GlobalTool</PackageId>
+    <Title>Obfuscar global tool version</Title>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Authors>Ryan Williams, and other contributors.</Authors>
+    <description>Obfuscar is a basic obfuscator for .NET assemblies. It uses massive overloading to rename metadata in .NET assemblies (including the names of methods, properties, events, fields, types and namespaces) to a minimal set, distinguishable in most cases only by signature.</description>
+    <summary>Open source obfuscar for .NET and Mono.</summary>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseUrl>http://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageProjectUrl>https://docs.obfuscar.com/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/lextm/obfuscar.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes>https://github.com/lextm/obfuscar/releases</PackageReleaseNotes>
+    <Copyright>(C) 2007-2018 Ryan Williams and other contributors.</Copyright>
+    <PackageTags>obfuscation obfuscator</PackageTags>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Version>1.0.0-beta1</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mono.Cecil" Version="0.10.0-beta7" />
+    <PackageReference Include="Mono.Options" Version="5.3.0.1" />
+  </ItemGroup>
+
+</Project>
