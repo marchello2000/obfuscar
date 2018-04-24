@@ -28,12 +28,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Diagnostics;
+using System.Xml.Linq;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Mono.Cecil.Rocks;
 using Obfuscar.Helpers;
-using System.Xml.Linq;
 
 namespace Obfuscar
 {
@@ -924,7 +923,7 @@ namespace Obfuscar
             }
 
             message = "HidePrivateApi option in configuration";
-            return !hidePrivateApi;
+            return false;
         }
 
         public bool ShouldSkipStringHiding(MethodKey method, InheritMap map, bool projectHideStrings)
@@ -1015,7 +1014,7 @@ namespace Obfuscar
             }
 
             message = "HidePrivateApi option in configuration";
-            return !hidePrivateApi;
+            return false;
         }
 
         public bool ShouldSkip(PropertyKey prop, InheritMap map, bool keepPublicApi, bool hidePrivateApi,

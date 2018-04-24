@@ -25,8 +25,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Xml;
 
 namespace Obfuscar
@@ -51,6 +49,7 @@ namespace Obfuscar
             HideStrings = XmlConvert.ToBoolean(vars.GetValue("HideStrings", "true"));
             Optimize = XmlConvert.ToBoolean(vars.GetValue("OptimizeMethods", "true"));
             SuppressIldasm = XmlConvert.ToBoolean(vars.GetValue("SuppressIldasm", "true"));
+            ObfuscateLocalsInPdb = XmlConvert.ToBoolean(vars.GetValue("ObfuscateLocalInPdb", "false"));
 
             XmlMapping = XmlConvert.ToBoolean(vars.GetValue("XmlMapping", "false"));
             RegenerateDebugInfo = XmlConvert.ToBoolean(vars.GetValue("RegenerateDebugInfo", "false"));
@@ -93,5 +92,7 @@ namespace Obfuscar
         public bool UseKoreanNames { get; }
 
         public string KeyFile { get; }
+
+        public bool ObfuscateLocalsInPdb { get; }
     }
 }

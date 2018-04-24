@@ -134,6 +134,9 @@ namespace Obfuscar
             LogOutput("types...");
             RenameTypes();
 
+            LogOutput("debug symbols...");
+            RenameLocalsInDebugSymbols();
+
             PostProcessing();
 
             LogOutput("Done.\n");
@@ -348,6 +351,42 @@ namespace Obfuscar
                     foreach (FieldDefinition field in type.Fields)
                     {
                         ProcessField(field, typeKey, nameGroups, info);
+                    }
+                }
+            }
+        }
+
+        private void RenameLocalsInDebugSymbols()
+        {
+            if (!Project.Settings.ObfuscateLocalsInPdb)
+            {
+                return;
+            }
+
+            foreach (var info in Project)
+            {
+                foreach (var type in info.GetAllTypeDefinitions())
+                {
+                    if (type.FullName == "<Module>")
+                    {
+                        continue;
+                    }
+
+                    int index = 0;
+                    foreach (MethodDefinition method in type.Methods)
+                    {
+                        var allScopes = method.DebugInformation.GetScopes();
+
+                        foreach (var scope in allScopes)
+                        {
+                            if (scope.HasVariables)
+                            {
+                                foreach (var variable in scope.Variables)
+                                {
+                                    variable.Name = NameMaker.UniqueName(index);
+                                }
+                            }
+                        }
                     }
                 }
             }
