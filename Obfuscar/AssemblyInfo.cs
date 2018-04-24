@@ -865,11 +865,11 @@ namespace Obfuscar
                 }
             }
 
-            return ShouldSkipParams(method, map, keepPublicApi, hidePrivateApi, markedOnly, out message);
+            return ShouldSkipParams(method, map, keepPublicApi, hidePrivateApi, markedOnly, false, out message);
         }
 
         public bool ShouldSkipParams(MethodKey method, InheritMap map, bool keepPublicApi, bool hidePrivateApi,
-            bool markedOnly, out string message)
+            bool forceParams, bool markedOnly, out string message)
         {
             var attribute = method.Method.MarkedToRename();
             // skip runtime methods
@@ -890,6 +890,12 @@ namespace Obfuscar
             {
                 message = "MarkedOnly option in configuration";
                 return true;
+            }
+
+            if (forceParams)
+            {
+                message = "ForceParams option in configuration";
+                return false;
             }
 
             if (ShouldForce(method.TypeKey, TypeAffectFlags.AffectMethod, map))

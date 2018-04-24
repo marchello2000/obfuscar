@@ -363,6 +363,12 @@ namespace Obfuscar
                 return;
             }
 
+            bool saveUseUnicodeChars = NameMaker.UseUnicodeChars;
+            bool saveUseKoreanChars = NameMaker.UseKoreanChars;
+
+            NameMaker.UseUnicodeChars = false;
+            NameMaker.UseKoreanChars = false;
+
             foreach (var info in Project)
             {
                 foreach (var type in info.GetAllTypeDefinitions())
@@ -375,21 +381,26 @@ namespace Obfuscar
                     int index = 0;
                     foreach (MethodDefinition method in type.Methods)
                     {
-                        var allScopes = method.DebugInformation.GetScopes();
+                        var allScopes = method.DebugInformation.GetScopes().ToList();
 
-                        foreach (var scope in allScopes)
+                        while (allScopes.Any())
                         {
-                            if (scope.HasVariables)
+                            var scope = allScopes.First();
+                            allScopes.RemoveAt(0);
+
+                            foreach (var variable in scope.Variables)
                             {
-                                foreach (var variable in scope.Variables)
-                                {
-                                    variable.Name = NameMaker.UniqueName(index);
-                                }
+                                variable.Name = NameMaker.UniqueName(index++);
                             }
+
+                            allScopes.AddRange(scope.Scopes);
                         }
                     }
                 }
             }
+
+            NameMaker.UseUnicodeChars = saveUseUnicodeChars;
+            NameMaker.UseKoreanChars = saveUseKoreanChars;
         }
 
         private void ProcessField(FieldDefinition field, TypeKey typeKey, Dictionary<string, NameGroup> nameGroups,
@@ -483,7 +494,7 @@ namespace Obfuscar
             MethodKey methodkey = new MethodKey(method);
             string skip;
             if (info.ShouldSkipParams(methodkey, Project.InheritMap, Project.Settings.KeepPublicApi,
-                Project.Settings.HidePrivateApi, Project.Settings.MarkedOnly, out skip))
+                Project.Settings.HidePrivateApi, Project.Settings.ForceParams, Project.Settings.MarkedOnly, out skip))
                 return;
 
             foreach (ParameterDefinition param in method.Parameters)

@@ -49,7 +49,8 @@ namespace Obfuscar
             HideStrings = XmlConvert.ToBoolean(vars.GetValue("HideStrings", "true"));
             Optimize = XmlConvert.ToBoolean(vars.GetValue("OptimizeMethods", "true"));
             SuppressIldasm = XmlConvert.ToBoolean(vars.GetValue("SuppressIldasm", "true"));
-            ObfuscateLocalsInPdb = XmlConvert.ToBoolean(vars.GetValue("ObfuscateLocalInPdb", "false"));
+            ObfuscateLocalsInPdb = XmlConvert.ToBoolean(vars.GetValue("ObfuscateLocalsInPdb", "false"));
+            ForceParams = XmlConvert.ToBoolean(vars.GetValue("ForceParams", "false"));
 
             XmlMapping = XmlConvert.ToBoolean(vars.GetValue("XmlMapping", "false"));
             RegenerateDebugInfo = XmlConvert.ToBoolean(vars.GetValue("RegenerateDebugInfo", "false"));
@@ -94,5 +95,7 @@ namespace Obfuscar
         public string KeyFile { get; }
 
         public bool ObfuscateLocalsInPdb { get; }
+
+        public bool ForceParams { get; set; }
     }
 }
